@@ -14,19 +14,19 @@ def make_decision_and_execute():
     print("Making decision and executing...")
 
     data_json = my_upbit.fetch_and_prepare_data()
-    # advice = my_gpt.analyze_data_with_gpt4(data_json)
-    #
-    # try:
-    #     decision = json.loads(advice)
-    #     # if decision.get('decision') in ["buy", "strong_buy"]:
-    #     #     my_upbit.buy_coin("KRW-BTC", 3800000, 100000*0.9995)
-    #     # elif decision.get('decision') == "sell":
-    #     #     my_upbit.sell_all_coin("BTC", "KRW-BTC")
-    #     print(decision)
-    #     my_telegram.send_message(decision)
-    #     result_decision = decision
-    # except Exception as e:
-    #     print(f"Failed to parse the advice as JSON: {e}")
+    advice = my_gpt.analyze_data_with_gpt4(data_json)
+
+    try:
+        decision = json.loads(advice)
+        if decision.get('decision') in ["buy", "strong_buy"]:
+            my_upbit.buy_coin("KRW-BTC", 3800000, 100000*0.9995)
+        elif decision.get('decision') == "sell":
+            my_upbit.sell_all_coin("BTC", "KRW-BTC")
+        print(decision)
+        my_telegram.send_message(decision)
+        result_decision = decision
+    except Exception as e:
+        print(f"Failed to parse the advice as JSON: {e}")
 
     message = ("JSON Data 1: Market Analysis Data\n" + data_json
                + "\nJSON Data 2: Current Investment State\n" + my_upbit.get_current_status())

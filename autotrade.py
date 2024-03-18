@@ -18,8 +18,10 @@ def make_decision_and_execute():
 
     try:
         decision = json.loads(advice)
-        if decision.get('decision') in ["buy", "strong_buy"]:
-            my_upbit.buy_coin("KRW-BTC", 3800000, 100000*0.9995)
+        if decision.get('decision') == "buy":
+            my_upbit.buy_coin("KRW-BTC", 3500000, 100000 * 0.9995)
+        elif decision.get('decision') == "strong_buy":
+            my_upbit.buy_coin("KRW-BTC", 3400000, 500000 * 0.9995)
         elif decision.get('decision') == "sell":
             my_upbit.sell_all_coin("BTC", "KRW-BTC")
         print(decision)
